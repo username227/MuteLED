@@ -23,3 +23,4 @@ Otherwise, place the files as follows:
 /etc/acpi/actions/muteled.sh
 /etc/acpi/events/mute-led
 ```
+Dependencies: alsa-tools, pamixer, acpid
