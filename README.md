@@ -15,7 +15,9 @@ sudo hda-verb /dev/snd/hwC1D0 0x20 0x500 0x0B && sudo hda-verb /dev/snd/hwC1D0 0
 
 If this works, then you should be able to use this hack.
 
-Place the files as follows:
+If you are on Arch or an Arch-derivative, you can install through the AUR, or download the package from releases.
+
+Otherwise, place the files as follows:
 ```
 /usr/bin/muteled
 /etc/acpi/actions/muteled.sh
