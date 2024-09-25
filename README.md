@@ -1,4 +1,4 @@
-# Muteled
+# MuteLED
 
 This repository contains a simple script that provides a workaround for some HP models where the mute LED light does not function. This is more of a hacky workaround solution. I've tested on my HP laptop, HP Pavilion Gaming Laptop 15z-ec0. It might work on other models. 
 
