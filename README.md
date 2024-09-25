@@ -1,6 +1,6 @@
 # MuteLED
 
-This repository contains a simple script that provides a workaround for some HP models where the mute LED light does not function. This is more of a hacky workaround solution. I've tested on my HP laptop, HP Pavilion Gaming Laptop 15z-ec0. It might work on other models. 
+This repository contains a simple script that provides a workaround for some HP models where the mute LED light does not function. This is more of a hacky workaround solution. I've tested on my HP laptop, HP Pavilion Gaming Laptop 15z-ec0. It might work on other models. If you find that this solution works for your laptop model (or doesn't work) please comment in Issue #1 with the info so that I can begin to compile a list of models. Thanks.
 
 # Instructions:
 
