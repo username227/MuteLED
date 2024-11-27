@@ -25,4 +25,9 @@ Otherwise, place the files as follows:
 ```
 The first two files should have execute rights (755).
 
+Then, make sure that the acpid service is started:
+```
+sudo systemctl enable --now acpid.service
+```
+
 Dependencies: alsa-tools, pamixer, acpid
