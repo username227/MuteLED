@@ -1,6 +1,8 @@
 #!/bin/sh
-if [ $(sudo -u $(id -u -n 1000) env XDG_RUNTIME_DIR=/run/user/1000 pamixer --get-mute) = "true" ]; then 
-sudo hda-verb /dev/snd/hwC1D0 0x20 0x500 0x0B && sudo hda-verb /dev/snd/hwC1D0 0x20 0x400 0x7778 
-else 
+$_name=$(id -u -n $UID)
+$_uid=$(id -u $UID)
+if [ ${sudo -u $_name env XDG_RUNTIME_DIR=/run/user/$_uid pamixer --get-mute} = "true" ]; then
+sudo hda-verb /dev/snd/hwC1D0 0x20 0x500 0x0B && sudo hda-verb /dev/snd/hwC1D0 0x20 0x400 0x7778
+else
 sudo hda-verb /dev/snd/hwC1D0 0x20 0x500 0x0B && sudo hda-verb /dev/snd/hwC1D0 0x20 0x400 0x7774
 fi
