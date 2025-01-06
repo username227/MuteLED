@@ -15,7 +15,7 @@ sudo hda-verb /dev/snd/hwC1D0 0x20 0x500 0x0B && sudo hda-verb /dev/snd/hwC1D0 0
 
 If this works, then you should be able to use this hack.
 
-If you are on Arch or an Arch-derivative, you can install through the AUR [here](https://aur.archlinux.org/packages/muteled), or download the package from releases.
+If you are on Arch or an Arch-derivative, you can install through the AUR [here](https://aur.archlinux.org/packages/muteled), or download the package from releases. I have also included a deb file for debian-based distros (but I haven't tested it, so let me know if you run into issues).
 
 Otherwise, place the files as follows:
 ```
