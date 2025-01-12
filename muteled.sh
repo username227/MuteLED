@@ -3,5 +3,4 @@
         MUTE) /usr/bin/muteled ;;
         *)    logger "ACPI action undefined: $2" ;;
     esac
-    ;;
 
