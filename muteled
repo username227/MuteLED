@@ -8,14 +8,16 @@ model_group="unknown"
 
 # Group 1: models for hwC1D0
 for id in \
-	"EliteBook 835" \
-	"x360 Convertible 15-ee1" \
-	"OMEN Laptop 15-en0" \
-	"Pavilion Gaming Laptop 15z-ec0" \
-	"Pavilion Gaming Laptop 15-ec1" \
-	"Pavilion Gaming Laptop 16-a06" \
-	"Pavilion x360 2-in-1 Laptop 14-ek1" \
-	"Victus Gaming Laptop 15-fa"; do
+	"G9" \
+	"14-ek1" \
+	"15-ee1" \
+	"15-en0" \
+	"15z-ec0" \
+	"15-ec1" \
+	"15-fa"; \
+	"16-a06" \
+	"16-xf0";
+do
 	echo "$model" | grep -iq "$id" && model_group="hwC1D0" && break
 done
 
@@ -33,23 +35,19 @@ pamixer_mute_status=$(sudo -u "$(id -u -n 1000)" env XDG_RUNTIME_DIR=/run/user/1
 # Run appropriate commands
 if [ "$model_group" = "hwC1D0" ]; then
 	if [ "$pamixer_mute_status" = "true" ]; then
-		# sudo hda-verb /dev/snd/hwC1D0 0x20 0x500 0x0B
-		# sudo hda-verb /dev/snd/hwC1D0 0x20 0x400 0x7778
-		echo "Method 1 on"
+		sudo hda-verb /dev/snd/hwC1D0 0x20 0x500 0x0B
+		sudo hda-verb /dev/snd/hwC1D0 0x20 0x400 0x7778
 	else
-		# sudo hda-verb /dev/snd/hwC1D0 0x20 0x500 0x0B
-		# sudo hda-verb /dev/snd/hwC1D0 0x20 0x400 0x7774
-		echo "Method 1 off"
+		sudo hda-verb /dev/snd/hwC1D0 0x20 0x500 0x0B
+		sudo hda-verb /dev/snd/hwC1D0 0x20 0x400 0x7774
 	fi
 elif [ "$model_group" = "hwC2D0" ]; then
 	if [ "$pamixer_mute_status" = "true" ]; then
-		# sudo hda-verb /dev/snd/hwC2D0 0x20 0x500 0x0b
-		# sudo hda-verb /dev/snd/hwC2D0 0x20 0x400 0x8
-		echo "Method 2 on"
+		sudo hda-verb /dev/snd/hwC2D0 0x20 0x500 0x0b
+		sudo hda-verb /dev/snd/hwC2D0 0x20 0x400 0x8
 	else
-		# sudo hda-verb /dev/snd/hwC2D0 0x20 0x500 0x0b
-		# sudo hda-verb /dev/snd/hwC2D0 0x20 0x400 0x0
-		echo "Method 2 off"
+		sudo hda-verb /dev/snd/hwC2D0 0x20 0x500 0x0b
+		sudo hda-verb /dev/snd/hwC2D0 0x20 0x400 0x0
 	fi
 else
 	echo "Unsupported model: '$model'" >&2
