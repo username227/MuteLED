@@ -17,9 +17,9 @@ To turn off the mute LED:
 <code>sudo hda-verb /dev/snd/hwC2D0 0x20 0x500 0x0b && sudo hda-verb /dev/snd/hwC2D0 0x20 0x400 0x0</code><p>
 Or, try this set of commands:<p>
 To turn on the mute LED:
-<code>sudo hda-verb /dev/snd/hwC0D0 0x20 0x500 0x0b && sudo hda-verb /dev/snd/hwC0D0 0x20 0x400 0x8</code><p>
+<code>sudo hda-verb /dev/snd/hwC0D0 0x20 0x500 0x0B && sudo hda-verb /dev/snd/hwC0D0 0x20 0x400 0x7778</code><p>
 To turn off the mute LED:
-<code>sudo hda-verb /dev/snd/hwC0D0 0x20 0x500 0x0b && sudo hda-verb /dev/snd/hwC0D0 0x20 0x400 0x0</code><p>
+<code>sudo hda-verb /dev/snd/hwC0D0 0x20 0x500 0x0B && sudo hda-verb /dev/snd/hwC0D0 0x20 0x400 0x7774</code><p>
 If any of these 3 sets of commands works, then you should be able to use this hack. HOWEVER: If the first set of commands works, this script should work automatically. If the second or third set of commands works, then the script will not work automatically, and you will need to comment in [Issue #1](https://github.com/username227/MuteLED/issues/1) or in a new issue with your model number so that the script can be updated to include your model.
 
 If you are on Arch or an Arch-derivative, you can install through the AUR [here](https://aur.archlinux.org/packages/muteled), or download the package from releases. I have also included a deb file for debian-based distros (but I haven't tested it, so let me know if you run into issues).
