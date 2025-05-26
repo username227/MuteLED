@@ -14,10 +14,9 @@ for id in \
 	"15-en0" \
 	"15z-ec0" \
 	"15-ec1" \
-	"15-fa"; \
+	"15-fa" \
 	"16-a06" \
-	"16-xf0";
-do
+	"16-xf0"; do
 	echo "$model" | grep -iq "$id" && model_group="hwC1D0" && break
 done
 
