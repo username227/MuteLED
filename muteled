@@ -10,6 +10,7 @@ model_group="unknown"
 for id in \
 	"G9" \
 	"14-ek1" \
+	"14-fa" \
 	"15-ee1" \
 	"15-en0" \
 	"15z-ec0" \
