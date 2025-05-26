@@ -3,45 +3,11 @@
 # Get the product name (remove nulls and newlines)
 model=$(tr -d '\0' </sys/devices/virtual/dmi/id/product_name | tr -d '\n')
 
-# Initialize model_group
-model_group="unknown"
-
-# Group 1: models for hwC1D0
-for id in \
-	"G9" \
-	"14-ek1" \
-	"14-fa" \
-	"15-ee1" \
-	"15-en0" \
-	"15z-ec0" \
-	"15-ec1" \
-	"15-fa" \
-	"16-a06" \
-	"16-xf0"; do
-	echo "$model" | grep -iq "$id" && model_group="hwC1D0" && break
-done
-
-# Group 2: models for hwC2D0
-if [ "$model_group" = "unknown" ]; then
-	for id in \
-		"16-xd0"; do
-		echo "$model" | grep -iq "$id" && model_group="hwC2D0" && break
-	done
-fi
-
 # Check mute status
 pamixer_mute_status=$(sudo -u "$(id -u -n 1000)" env XDG_RUNTIME_DIR=/run/user/1000 pamixer --get-mute)
 
-# Run appropriate commands
-if [ "$model_group" = "hwC1D0" ]; then
-	if [ "$pamixer_mute_status" = "true" ]; then
-		sudo hda-verb /dev/snd/hwC1D0 0x20 0x500 0x0B
-		sudo hda-verb /dev/snd/hwC1D0 0x20 0x400 0x7778
-	else
-		sudo hda-verb /dev/snd/hwC1D0 0x20 0x500 0x0B
-		sudo hda-verb /dev/snd/hwC1D0 0x20 0x400 0x7774
-	fi
-elif [ "$model_group" = "hwC2D0" ]; then
+# Function to run hwC2D0 commands
+run_hwC2D0() {
 	if [ "$pamixer_mute_status" = "true" ]; then
 		sudo hda-verb /dev/snd/hwC2D0 0x20 0x500 0x0b
 		sudo hda-verb /dev/snd/hwC2D0 0x20 0x400 0x8
@@ -49,6 +15,50 @@ elif [ "$model_group" = "hwC2D0" ]; then
 		sudo hda-verb /dev/snd/hwC2D0 0x20 0x500 0x0b
 		sudo hda-verb /dev/snd/hwC2D0 0x20 0x400 0x0
 	fi
-else
-	echo "Unsupported model: '$model'" >&2
+}
+
+# Function to run hwC0D0 commands
+run_hwC0D0() {
+	if [ "$pamixer_mute_status" = "true" ]; then
+		sudo hda-verb /dev/snd/hwC0D0 0x20 0x500 0x0B
+		sudo hda-verb /dev/snd/hwC0D0 0x20 0x400 0x7778
+	else
+		sudo hda-verb /dev/snd/hwC0D0 0x20 0x500 0x0B
+		sudo hda-verb /dev/snd/hwC0D0 0x20 0x400 0x7774
+	fi
+}
+
+# Function to run hwC1D0 commands (fallback)
+run_hwC1D0() {
+	if [ "$pamixer_mute_status" = "true" ]; then
+		sudo hda-verb /dev/snd/hwC1D0 0x20 0x500 0x0B
+		sudo hda-verb /dev/snd/hwC1D0 0x20 0x400 0x7778
+	else
+		sudo hda-verb /dev/snd/hwC1D0 0x20 0x500 0x0B
+		sudo hda-verb /dev/snd/hwC1D0 0x20 0x400 0x7774
+	fi
+}
+
+# Determine which group the model belongs to
+model_group="unknown"
+
+# Group 1: hwC2D0 models
+for id in \
+	"16-xd0"; do
+	echo "$model" | grep -iq "$id" && model_group="hwC2D0" && break
+done
+
+# Group 2: hwC0D0 models
+if [ "$model_group" = "unknown" ]; then
+	for id in \
+		"14-ek1"; do
+		echo "$model" | grep -iq "$id" && model_group="hwC0D0" && break
+	done
 fi
+
+# Dispatch based on detected group
+case "$model_group" in
+hwC2D0) run_hwC2D0 ;;
+hwC0D0) run_hwC0D0 ;;
+*) run_hwC1D0 ;;
+esac
