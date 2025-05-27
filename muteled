@@ -28,6 +28,17 @@ run_hwC0D0() {
 	fi
 }
 
+# Function to run hwC1D0 alternate commands
+run_hwC1D0_alt() {
+	if [ "$pamixer_mute_status" = "true" ]; then
+		sudo hda-verb /dev/snd/hwC1D0 0x20 0x500 0x7
+		sudo hda-verb /dev/snd/hwC1D0 0x20 0x400 0x1
+	else
+		sudo hda-verb /dev/snd/hwC1D0 0x20 0x500 0x7
+		sudo hda-verb /dev/snd/hwC1D0 0x20 0x400 0x0
+	fi
+}
+
 # Function to run hwC1D0 commands (fallback)
 run_hwC1D0() {
 	if [ "$pamixer_mute_status" = "true" ]; then
@@ -56,9 +67,18 @@ if [ "$model_group" = "unknown" ]; then
 	done
 fi
 
+# Group 3: hwC1D0_alt models
+if [ "$model_group" = "unknown" ]; then
+	for id in \
+		"15s-eq1"; do
+		echo "$model" | grep -iq "$id" && model_group="hwC1D0_alt" && break
+	done
+fi
+
 # Dispatch based on detected group
 case "$model_group" in
 hwC2D0) run_hwC2D0 ;;
 hwC0D0) run_hwC0D0 ;;
+hwC1D0_alt) run_hwC1D0_alt ;;
 *) run_hwC1D0 ;;
 esac
