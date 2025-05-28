@@ -10,44 +10,44 @@ pamixer_mute_status=$(sudo -u $cuname env XDG_RUNTIME_DIR=/run/user/$cuid pamixe
 # Function to run hwC2D0 commands
 run_hwC2D0() {
 	if [ "$pamixer_mute_status" = "true" ]; then
-		sudo hda-verb /dev/snd/hwC2D0 0x20 0x500 0x0b
-		sudo hda-verb /dev/snd/hwC2D0 0x20 0x400 0x8
+		hda-verb /dev/snd/hwC2D0 0x20 0x500 0x0b
+		hda-verb /dev/snd/hwC2D0 0x20 0x400 0x8
 	else
-		sudo hda-verb /dev/snd/hwC2D0 0x20 0x500 0x0b
-		sudo hda-verb /dev/snd/hwC2D0 0x20 0x400 0x0
+		hda-verb /dev/snd/hwC2D0 0x20 0x500 0x0b
+		hda-verb /dev/snd/hwC2D0 0x20 0x400 0x0
 	fi
 }
 
 # Function to run hwC0D0 commands
 run_hwC0D0() {
 	if [ "$pamixer_mute_status" = "true" ]; then
-		sudo hda-verb /dev/snd/hwC0D0 0x20 0x500 0x0B
-		sudo hda-verb /dev/snd/hwC0D0 0x20 0x400 0x7778
+		hda-verb /dev/snd/hwC0D0 0x20 0x500 0x0B
+		hda-verb /dev/snd/hwC0D0 0x20 0x400 0x7778
 	else
-		sudo hda-verb /dev/snd/hwC0D0 0x20 0x500 0x0B
-		sudo hda-verb /dev/snd/hwC0D0 0x20 0x400 0x7774
+		hda-verb /dev/snd/hwC0D0 0x20 0x500 0x0B
+		hda-verb /dev/snd/hwC0D0 0x20 0x400 0x7774
 	fi
 }
 
 # Function to run hwC1D0 alternate commands
 run_hwC1D0_alt() {
 	if [ "$pamixer_mute_status" = "true" ]; then
-		sudo hda-verb /dev/snd/hwC1D0 0x20 0x500 0x7
-		sudo hda-verb /dev/snd/hwC1D0 0x20 0x400 0x1
+		hda-verb /dev/snd/hwC1D0 0x20 0x500 0x7
+		hda-verb /dev/snd/hwC1D0 0x20 0x400 0x1
 	else
-		sudo hda-verb /dev/snd/hwC1D0 0x20 0x500 0x7
-		sudo hda-verb /dev/snd/hwC1D0 0x20 0x400 0x0
+		hda-verb /dev/snd/hwC1D0 0x20 0x500 0x7
+		hda-verb /dev/snd/hwC1D0 0x20 0x400 0x0
 	fi
 }
 
 # Function to run hwC1D0 commands (fallback)
 run_hwC1D0() {
 	if [ "$pamixer_mute_status" = "true" ]; then
-		sudo hda-verb /dev/snd/hwC1D0 0x20 0x500 0x0B
-		sudo hda-verb /dev/snd/hwC1D0 0x20 0x400 0x7778
+		hda-verb /dev/snd/hwC1D0 0x20 0x500 0x0B
+		hda-verb /dev/snd/hwC1D0 0x20 0x400 0x7778
 	else
-		sudo hda-verb /dev/snd/hwC1D0 0x20 0x500 0x0B
-		sudo hda-verb /dev/snd/hwC1D0 0x20 0x400 0x7774
+		hda-verb /dev/snd/hwC1D0 0x20 0x500 0x0B
+		hda-verb /dev/snd/hwC1D0 0x20 0x400 0x7774
 	fi
 }
 
