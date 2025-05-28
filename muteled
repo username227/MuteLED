@@ -4,7 +4,8 @@
 model=$(tr -d '\0' </sys/devices/virtual/dmi/id/product_name | tr -d '\n')
 
 # Check mute status
-pamixer_mute_status=$(sudo -u "$(id -u -n 1000)" env XDG_RUNTIME_DIR=/run/user/1000 pamixer --get-mute)
+IFS=' ' read -r cuid cuname other <  <(/usr/bin/loginctl list-users | grep active)
+pamixer_mute_status=$(sudo -u $cuname env XDG_RUNTIME_DIR=/run/user/$cuid pamixer --get-mute)
 
 # Function to run hwC2D0 commands
 run_hwC2D0() {
