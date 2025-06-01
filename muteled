@@ -43,11 +43,11 @@ run_hwC1D0_alt() {
 # Function to run hwC1D0 commands (fallback)
 run_hwC1D0() {
 	if [ "$pamixer_mute_status" = "true" ]; then
-		hda-verb /dev/snd/hwC1D0 0x20 0x500 0x0B
-		hda-verb /dev/snd/hwC1D0 0x20 0x400 0x7778
+		hda-verb /dev/snd/hwC2D0 0x20 0x500 0x0B
+		hda-verb /dev/snd/hwC2D0 0x20 0x400 0x7778
 	else
-		hda-verb /dev/snd/hwC1D0 0x20 0x500 0x0B
-		hda-verb /dev/snd/hwC1D0 0x20 0x400 0x7774
+		hda-verb /dev/snd/hwC2D0 0x20 0x500 0x0B
+		hda-verb /dev/snd/hwC2D0 0x20 0x400 0x7774
 	fi
 }
 
