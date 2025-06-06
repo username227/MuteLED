@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Get the product name (remove nulls and newlines)
 model=$(tr -d '\0' </sys/devices/virtual/dmi/id/product_name | tr -d '\n')
@@ -7,79 +7,70 @@ model=$(tr -d '\0' </sys/devices/virtual/dmi/id/product_name | tr -d '\n')
 IFS=' ' read -r cuid cuname other <  <(/usr/bin/loginctl list-users | grep active)
 pamixer_mute_status=$(sudo -u $cuname env XDG_RUNTIME_DIR=/run/user/$cuid pamixer --get-mute)
 
-# Function to run hwC2D0 commands
-run_hwC2D0() {
+card=$(grep "Speaker Playback Volume" /proc/asound/card*/codec*)
+
+if [[ $card = *card0* ]];
+then card=hwC0D0
+elif [[ $card = *card1* ]];
+then card=hwC1D0
+elif [[ $card = *card2* ]];
+then card=hwC2D0
+fi
+
+# Function to run set1 commands
+run_set1() {
 	if [ "$pamixer_mute_status" = "true" ]; then
-		hda-verb /dev/snd/hwC2D0 0x20 0x500 0x0b
-		hda-verb /dev/snd/hwC2D0 0x20 0x400 0x8
+		hda-verb /dev/snd/$card 0x20 0x500 0x0b
+		hda-verb /dev/snd/$card 0x20 0x400 0x8
 	else
-		hda-verb /dev/snd/hwC2D0 0x20 0x500 0x0b
-		hda-verb /dev/snd/hwC2D0 0x20 0x400 0x0
+		hda-verb /dev/snd/$card 0x20 0x500 0x0b
+		hda-verb /dev/snd/$card 0x20 0x400 0x0
 	fi
 }
 
-# Function to run hwC0D0 commands
-run_hwC0D0() {
+# Function to run set2 commands
+run_set2() {
 	if [ "$pamixer_mute_status" = "true" ]; then
-		hda-verb /dev/snd/hwC0D0 0x20 0x500 0x0B
-		hda-verb /dev/snd/hwC0D0 0x20 0x400 0x7778
+		hda-verb /dev/snd/$card 0x20 0x500 0x7
+		hda-verb /dev/snd/$card 0x20 0x400 0x1
 	else
-		hda-verb /dev/snd/hwC0D0 0x20 0x500 0x0B
-		hda-verb /dev/snd/hwC0D0 0x20 0x400 0x7774
+		hda-verb /dev/snd/$card 0x20 0x500 0x7
+		hda-verb /dev/snd/$card 0x20 0x400 0x0
 	fi
 }
 
-# Function to run hwC1D0 alternate commands
-run_hwC1D0_alt() {
+# Function to run fallback commands
+run_fallback() {
 	if [ "$pamixer_mute_status" = "true" ]; then
-		hda-verb /dev/snd/hwC1D0 0x20 0x500 0x7
-		hda-verb /dev/snd/hwC1D0 0x20 0x400 0x1
+		hda-verb /dev/snd/$card 0x20 0x500 0x0B
+		hda-verb /dev/snd/$card 0x20 0x400 0x7778
 	else
-		hda-verb /dev/snd/hwC1D0 0x20 0x500 0x7
-		hda-verb /dev/snd/hwC1D0 0x20 0x400 0x0
-	fi
-}
-
-# Function to run hwC1D0 commands (fallback)
-run_hwC1D0() {
-	if [ "$pamixer_mute_status" = "true" ]; then
-		hda-verb /dev/snd/hwC1D0 0x20 0x500 0x0B
-		hda-verb /dev/snd/hwC1D0 0x20 0x400 0x7778
-	else
-		hda-verb /dev/snd/hwC1D0 0x20 0x500 0x0B
-		hda-verb /dev/snd/hwC1D0 0x20 0x400 0x7774
+		hda-verb /dev/snd/$card 0x20 0x500 0x0B
+		hda-verb /dev/snd/$card 0x20 0x400 0x7774
 	fi
 }
 
 # Determine which group the model belongs to
 model_group="unknown"
 
-# Group 1: hwC2D0 models
+# Group 1: set1 models
 for id in \
-	"16-xd0"; do
-	echo "$model" | grep -iq "$id" && model_group="hwC2D0" && break
+	"16-xd0" \			# HP Omen 16-xd0020AX
+	"16-e0"; do			# HP Victus Laptop 16-e0xxx
+	echo "$model" | grep -iq "$id" && model_group="set1" && break
 done
 
-# Group 2: hwC0D0 models
+# Group 2: set2 models
 if [ "$model_group" = "unknown" ]; then
 	for id in \
-		"14-ek1"; do
-		echo "$model" | grep -iq "$id" && model_group="hwC0D0" && break
-	done
-fi
-
-# Group 3: hwC1D0_alt models
-if [ "$model_group" = "unknown" ]; then
-	for id in \
-		"15s-eq1"; do
-		echo "$model" | grep -iq "$id" && model_group="hwC1D0_alt" && break
+		"15s-eq1"; do	# HP Laptop 15s-eq1xxx
+		echo "$model" | grep -iq "$id" && model_group="set2" && break
 	done
 fi
 
 # Dispatch based on detected group
 case "$model_group" in
-hwC2D0) run_hwC2D0 ;;
-hwC0D0) run_hwC0D0 ;;
-hwC1D0_alt) run_hwC1D0_alt ;;
-*) run_hwC1D0 ;;
+set1) run_set1 ;;
+set2) run_set2 ;;
+*) run_fallback ;;
 esac
