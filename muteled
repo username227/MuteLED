@@ -7,7 +7,7 @@ model=$(tr -d '\0' </sys/devices/virtual/dmi/id/product_name | tr -d '\n')
 IFS=' ' read -r cuid cuname other <  <(/usr/bin/loginctl list-users | grep active)
 pamixer_mute_status=$(sudo -u $cuname env XDG_RUNTIME_DIR=/run/user/$cuid pamixer --get-mute)
 
-card=$(sudo grep "Speaker Playback Volume" /proc/asound/card*/codec*)
+card=$(grep "Speaker Playback Volume" /proc/asound/card*/codec*)
 
 if [[ $card = *card0* ]];
 then card=hwC0D0
