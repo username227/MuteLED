@@ -53,10 +53,12 @@ run_fallback() {
 # Determine which group the model belongs to
 model_group="unknown"
 
+set1_models=(
+"16-xd0"	# HP Omen 16-xd0020AX
+"16-e0" 	# HP Victus Laptop 16-e0xxx
+)
 # Group 1: set1 models
-for id in \
-	"16-xd0" \			# HP Omen 16-xd0020AX
-	"16-e0"; do			# HP Victus Laptop 16-e0xxx
+for id in set1_models; do
 	echo "$model" | grep -iq "$id" && model_group="set1" && break
 done
 
