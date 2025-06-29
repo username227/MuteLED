@@ -1,6 +1,6 @@
 # MuteLED
 
-This repository contains a simple script that provides a workaround for some HP laptop models where the mute LED light does not function. This is more of a hacky workaround solution. Models for which MuteLED is reported to work and not work are listed in [this](https://github.com/username227/MuteLED/wiki/Support-by-Laptop-Model) wiki article. The article will be updated as more users report results. Therefore, if you find that this solution works for your laptop model, or if it doesn't work, please comment in [Issue #1](https://github.com/username227/MuteLED/issues/1) with your laptop model and any pertient information. Thanks.
+This repository contains a simple script that provides a workaround for some HP laptop models where the mute LED light does not function. This is more of a hacky workaround solution. Models for which MuteLED is reported to work and not work are listed in [this](https://github.com/username227/MuteLED/wiki/Support-by-Laptop-Model) wiki article. The article will be updated as more users report results. Therefore, if you find that this solution works for your laptop model, please comment in [Issue #1](https://github.com/username227/MuteLED/issues/1) with your laptop model and any pertient information. If the script does NOT work for you, please see below. Thanks.
 
 # Instructions:
 
@@ -15,7 +15,7 @@ The output will have a path that should say card0, card1, or card2. If you use c
 
 If these commands work to turn on and off your LED, this module should work by default.
 ### Important:
-If the above commands do not work, then don't give up. Please visit [this wiki page](https://github.com/username227/MuteLED/wiki/Get-Support-For-Your-Laptop-Model) where several other sets of commands known to work on other HP laptop models are listed. If any set of commands from that wiki page work, follow the instructions in the article to open an issue and I will try to incorporate support for your laptop model as quickly as possible.
+If the above commands do not work, then don't give up. Please visit [this wiki page](https://github.com/username227/MuteLED/wiki/Get-Support-For-Your-Laptop-Model) where several other sets of commands known to work on other HP laptop models are listed. If any set of commands from that wiki page work, follow the instructions in the article to open a new issue with the Request LED Support template and I will try to incorporate support for your laptop model as quickly as possible.
 
 ### Installation:
 If you are on Arch or an Arch-derivative, you can install through the AUR [here](https://aur.archlinux.org/packages/muteled), or download the package from releases. I have also included a deb file for debian-based distros (but I haven't tested it, so let me know if you run into issues).
