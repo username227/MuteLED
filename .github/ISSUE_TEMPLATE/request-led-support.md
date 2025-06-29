@@ -1,6 +1,6 @@
 ---
 name: Request LED Support
-about: Describe this issue template's purpose here.
+about: Use this template to request LED support for your mute button.
 title: ''
 labels: ''
 assignees: ''
