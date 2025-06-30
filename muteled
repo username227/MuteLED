@@ -62,10 +62,14 @@ for id in set1_models; do
 	echo "$model" | grep -iq "$id" && model_group="set1" && break
 done
 
+set2_models=(
+"15s-eq1"	# HP Laptop 15s-eq1xxx
+"15s-gy0"	# HP 15s-gy0501au
+)
+
 # Group 2: set2 models
 if [ "$model_group" = "unknown" ]; then
-	for id in \
-		"15s-eq1"; do	# HP Laptop 15s-eq1xxx
+	for id in set2_models; do
 		echo "$model" | grep -iq "$id" && model_group="set2" && break
 	done
 fi
