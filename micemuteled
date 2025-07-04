@@ -1,0 +1,32 @@
+#!/bin/bash
+
+# Get the product name (remove nulls and newlines)
+model=$(tr -d '\0' </sys/devices/virtual/dmi/id/product_name | tr -d '\n')
+
+# get mic source index number
+sourceindex="$(pamixer --list-sources |grep input | cut -d ' ' -f1)"
+
+# Check mute status
+IFS=' ' read -r cuid cuname other <  <(/usr/bin/loginctl list-users | grep active)
+pamixer_mute_status=$(sudo -u $cuname env XDG_RUNTIME_DIR=/run/user/$cuid pamixer --source $sourceindex --get-mute)
+
+card=$(grep "Speaker Playback Volume" /proc/asound/card*/codec*)
+
+if [[ $card = *card0* ]];
+then card=hwC0D0
+elif [[ $card = *card1* ]];
+then card=hwC1D0
+elif [[ $card = *card2* ]];
+then card=hwC2D0
+fi
+
+# Function to run set1 commands
+run_set1() {
+	if [ "$pamixer_mute_status" = "true" ]; then
+		hda-verb /dev/snd/$card 0x01 SET_GPIO_MASK 0x16 
+		hda-verb /dev/snd/$card 0x01 SET_GPIO_DIR 0x16 
+		hda-verb /dev/snd/$card 0x01 SET_GPIO_DATA 0x00
+	else
+		hda-verb /dev/snd/$card 0x01 SET_GPIO_DATA 0x04
+	fi
+}
