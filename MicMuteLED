@@ -23,6 +23,16 @@ fi
 # Function to run set1 commands
 run_set1() {
 	if [ "$pamixer_mute_status" = "true" ]; then
+		hda-verb /dev/snd/$card 0x1 0x716 0x4 
+		hda-verb /dev/snd/$card 0x1 0x717 0x4
+	else 
+		hda-verb /dev/snd/$card 0x1 0x716 0x4 
+		hda-verb /dev/snd/$card 0x1 0x717 0x1
+
+
+# Function to run set2 commands
+run_set2() {
+	if [ "$pamixer_mute_status" = "true" ]; then
 		hda-verb /dev/snd/$card 0x01 SET_GPIO_MASK 0x16 
 		hda-verb /dev/snd/$card 0x01 SET_GPIO_DIR 0x16 
 		hda-verb /dev/snd/$card 0x01 SET_GPIO_DATA 0x00
