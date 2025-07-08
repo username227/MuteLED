@@ -65,6 +65,7 @@ done
 set2_models=(
 "15s-eq1"	# HP Laptop 15s-eq1xxx
 "15s-gy0"	# HP 15s-gy0501au
+"340S G7"	# HP 340S G7 Notebook PC
 )
 
 # Group 2: set2 models
