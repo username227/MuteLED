@@ -58,7 +58,7 @@ set1_models=(
 "16-e0" 	# HP Victus Laptop 16-e0xxx
 )
 # Group 1: set1 models
-for id in set1_models; do
+for id in $set1_models; do
 	echo "$model" | grep -iq "$id" && model_group="set1" && break
 done
 
@@ -69,7 +69,7 @@ set2_models=(
 
 # Group 2: set2 models
 if [ "$model_group" = "unknown" ]; then
-	for id in set2_models; do
+	for id in $set2_models; do
 		echo "$model" | grep -iq "$id" && model_group="set2" && break
 	done
 fi
