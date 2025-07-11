@@ -3,13 +3,14 @@
 # Get the product name (remove nulls and newlines)
 model=$(tr -d '\0' </sys/devices/virtual/dmi/id/product_name | tr -d '\n')
 
-# get mic source index number
-sourceindex="$(pamixer --list-sources |grep input | cut -d ' ' -f1)"
+# get mic source
+defaultsource=$(pactl --get-default-source)
 
 # Check mute status
 IFS=' ' read -r cuid cuname other <  <(/usr/bin/loginctl list-users | grep active)
-pamixer_mute_status=$(sudo -u $cuname env XDG_RUNTIME_DIR=/run/user/$cuid pamixer --source $sourceindex --get-mute)
+pamixer_mute_status=$(sudo -u $cuname env XDG_RUNTIME_DIR=/run/user/$cuid pamixer --source $defaultsource --get-mute)
 
+# Get Sound Card Number
 card=$(grep "Speaker Playback Volume" /proc/asound/card*/codec*)
 
 if [[ $card = *card0* ]];
